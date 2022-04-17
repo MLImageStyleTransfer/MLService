@@ -2,3 +2,4 @@
 .mypy_cache
 tests/.pytest_cache
 venv
+pretrained
