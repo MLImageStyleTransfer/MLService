@@ -9,7 +9,7 @@ from layers import NormalizationLayer, ContentLossLayer, StyleLossLayer
 
 @pytest.fixture(scope="module")
 def tensor_image() -> tp.Generator[torch.Tensor, None, None]:
-    with Image.open("./img.png") as image:
+    with Image.open("./test_data/img.png") as image:
         tensor_image: torch.Tensor = image_to_tensor(image.crop((50, 50, 250, 250)))
         tensor_image = tensor_image.view(-1, *tensor_image.shape)
         yield tensor_image

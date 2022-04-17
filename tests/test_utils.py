@@ -8,7 +8,7 @@ from utils import normalize_tensor_image, denormalize_tensor_image, tensor_to_im
 
 @pytest.fixture(scope="module")
 def image() -> tp.Generator[Image.Image, None, None]:
-    with Image.open("./img.png") as image:
+    with Image.open("./test_data/img.png") as image:
         yield image
 
 

@@ -39,5 +39,17 @@ def tensor_to_image(tensor_image: torch.Tensor) -> Image.Image:
     :return: PIL image
     """
     if list(tensor_image.shape) != [3, *Config.working_image_size]:
-        tensor_image = tensor_image.view(-1, 3, *Config.working_image_size)
+        tensor_image = tensor_image.view(3, *Config.working_image_size)
     return torchvision.transforms.ToPILImage()(tensor_image)
+
+
+def resize_tensor_image(tensor_image: torch.Tensor,
+                        new_size: tuple[int, int] = Config.working_image_size) -> torch.Tensor:
+    """
+    Resizes tensor representation of image into new size
+    :param tensor_image: tensor representation of image [3, H, W] or [1, 3, H, W]
+    :param new_size: new size of image
+    :return: tensor representation of image with new size
+    """
+    result: torch.Tensor = torchvision.transforms.Resize(new_size)(tensor_image)
+    return result

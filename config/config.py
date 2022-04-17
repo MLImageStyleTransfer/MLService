@@ -19,6 +19,8 @@ class Config:
         default_content_layers - list of layers after that ContentLossLayers is placed
 
         default_style_layers - list of layers after that  StyleLossLayers is placed
+
+        alpha - coefficient with which style loss is added to content loss
     """
     PATH_TO_PROJECT: Path = Path().cwd().parent.absolute().resolve()
 
@@ -36,3 +38,5 @@ class Config:
 
     default_content_layers: list[str] = ["conv_4"]
     default_style_layers: list[str] = ["conv_1", "conv_2", "conv_3", "conv_4", "conv_5"]
+
+    alpha: torch.Tensor = torch.tensor(10000, device=device)

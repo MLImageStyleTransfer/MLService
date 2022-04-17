@@ -5,14 +5,14 @@ from PIL import Image
 from torchvision import transforms
 
 from config import Config
-from model import NSTModel
+from model import NSTModel, transfer_style
 from utils import image_to_tensor
 from layers import NormalizationLayer, ContentLossLayer, StyleLossLayer
 
 
 @pytest.fixture(scope="module")
 def tensor_content_image() -> tp.Generator[torch.Tensor, None, None]:
-    with Image.open("./img.png") as image:
+    with Image.open("./test_data/img.png") as image:
         tensor_image: torch.Tensor = image_to_tensor(image.crop((50, 50, 250, 250)))
         tensor_image = tensor_image.view(-1, *tensor_image.shape)
         tensor_image = transforms.Resize(Config.working_image_size)(tensor_image)
@@ -21,7 +21,7 @@ def tensor_content_image() -> tp.Generator[torch.Tensor, None, None]:
 
 @pytest.fixture(scope="module")
 def tensor_style_image() -> tp.Generator[torch.Tensor, None, None]:
-    with Image.open("./img.png") as image:
+    with Image.open("./test_data/img.png") as image:
         tensor_image: torch.Tensor = image_to_tensor(image.crop((400, 400, 650, 650)))
         tensor_image = tensor_image.view(-1, *tensor_image.shape)
         tensor_image = transforms.Resize(Config.working_image_size)(tensor_image)
@@ -67,3 +67,10 @@ def test_nst_model_collects_gradients(tensor_content_image: torch.Tensor,
 
     assert input_img.grad is not None
     assert input_img.grad.data != pytest.approx(torch.zeros_like(input_img.grad.data), abs=1e-6)
+
+
+def test_transfer_style() -> None:
+    content_image: Image.Image = Image.open("./test_data/sample_img.png")
+    style_image: Image.Image = Image.open("./test_data/style_img.png")
+    result: Image.Image = transfer_style(content_image, style_image, num_transfer_iterations=200)
+    result.save("./test_data/result.png", "PNG")
