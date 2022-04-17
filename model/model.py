@@ -28,7 +28,12 @@ class NSTModel(torch.nn.Module):
         self.content_loss_layers: list[ContentLossLayer] = []
 
         layers_counter: defaultdict[str, int] = defaultdict(int)
-        torch.hub.set_dir(str(Config.PATH_TO_PROJECT / path_to_pretrained))
+
+        path_to_pretrained = Config.PATH_TO_PROJECT / path_to_pretrained
+        if not path_to_pretrained.exists():
+            path_to_pretrained.mkdir(parents=True, exist_ok=True)
+
+        torch.hub.set_dir(str(path_to_pretrained))
         base_model: nn.Module = vgg19(pretrained=True).features.to(Config.device).eval()
 
         for layer in base_model.children():
