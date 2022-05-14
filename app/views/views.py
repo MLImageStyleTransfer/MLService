@@ -44,7 +44,8 @@ def style_transfer_view() -> flask.Response:
 
     if isinstance(request_data, dict) and \
             ({"content_image_code", "style_image_code", "params"} <= request_data.keys()) and \
-            isinstance(request_data["params"], dict) and ("transfer_coefficient" in request_data):
+            isinstance(request_data["params"], dict) and \
+            ("transfer_coefficient" in request_data["params"]):
         try:
             result_image_code: str = controller(
                 request_data["content_image_code"],
