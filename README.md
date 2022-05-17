@@ -1,6 +1,7 @@
 # MLService
 
-### Setup and run (only debug mode)
+### Setup and run
 ```commandline
-pip install -r requirements.txt
-python3 runner.py
+sudo chmod +x run.sh
+./run.sh
+```
