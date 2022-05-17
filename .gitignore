@@ -1,6 +1,8 @@
 .idea
 .mypy_cache
 tests/.pytest_cache
+tests/test_data/*
 venv
 pretrained
 *__pycache__
+
