@@ -53,12 +53,12 @@ def test_nst_model_collects_gradients(tensor_content_image: torch.Tensor,
     model(input_img)
 
     cumulative_style_loss: torch.Tensor = torch.tensor(0.0)
-    for style_layer in model.style_loss_layers:
+    for style_layer in model._style_loss_layers:
         cumulative_style_loss += style_layer.loss
         assert style_layer.loss.item() != pytest.approx(0.0, abs=1e-6)
 
     cumulative_content_loss: torch.Tensor = torch.tensor(0.0)
-    for content_layer in model.content_loss_layers:
+    for content_layer in model._content_loss_layers:
         cumulative_content_loss += content_layer.loss
         assert content_layer.loss.item() != pytest.approx(0.0, abs=1e-6)
 
