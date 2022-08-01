@@ -22,7 +22,7 @@ def index() -> flask.Response:
     return flask.Response(main_page)
 
 
-@app.route("/style_transfer/", methods=["POST"])
+@app.route("/start_style_transfer/", methods=["POST"])
 def style_transfer_view() -> flask.Response:
     """
     This function processes request for style transfer
@@ -31,11 +31,15 @@ def style_transfer_view() -> flask.Response:
         "content_image_code": str,
         "style_image_code": str,
         "params" : {
-            "transfer_coefficient": float
+            "transfer_coefficient": float,
+            "default_content_layers": list[str],
+            "default_style_layers": list[str],
+            "alpha": float
         }
     }
     :return: flask.Response with structure:
     {
+        "status": str
         "image_code": str
     }
     """
@@ -52,7 +56,8 @@ def style_transfer_view() -> flask.Response:
                 request_data["style_image_code"],
                 request_data["params"]["transfer_coefficient"]
             )
-            response = jsonify({"image_code": result_image_code})
+
+            response = jsonify({"image_code": result_image_code, "status": "completed"})
         except AssertionError:
             response = flask.Response(status=400)
     else:

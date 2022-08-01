@@ -74,7 +74,7 @@ class NSTModel(torch.nn.Module):
         torch.hub.set_dir(str(path_to_pretrained))
         base_model: tp.Optional[nn.Module] = None
         if model_type == "vgg19":
-            base_model: nn.Module = vgg19(pretrained=True).features.to(Config.device).eval()
+            base_model = vgg19(pretrained=True).features.to(Config.device).eval()
         assert base_model is not None
         return base_model
 
